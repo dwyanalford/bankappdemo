@@ -4,7 +4,6 @@ import com.revature.dao.UserDao;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.exceptions.UserUnsuccessfullyAddedException;
 import com.revature.model.User;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -42,6 +41,16 @@ public class UserService {
 
         if (user == null) {
             throw new UserNotFoundException("User with id " + id + " was not found");
+        } else {
+            return user;
+        }
+    }
+
+    public User deleteUserById(int id) throws SQLException {
+        User user = userDao.deleteUserById(id); // null if user does not exist
+
+        if (user == null) {
+            throw new UserNotFoundException("User with id " + id + " was successfully deleted");
         } else {
             return user;
         }

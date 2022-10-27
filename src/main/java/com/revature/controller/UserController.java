@@ -55,5 +55,26 @@ public class UserController implements Controller {
                 ctx.status(404);
             }
         });
+
+        app.delete("/users/{user_id}", (ctx) ->{
+            String userId = ctx.pathParam("user_id");
+
+            try {
+                // This method could throw NumberFormatException if we do not provide a String that represents a valid int
+                int uId = Integer.parseInt(userId); // Converting a String into an int
+
+                User deletedUser = userService.deleteUserById(uId); // This method could potentially throw UserNotFoundException, which
+                // we then catch if it occurs
+
+                ctx.json(deletedUser);
+
+            } catch (NumberFormatException e) {
+                ctx.result("Id " + userId + " must be a valid integer");
+                ctx.status(400); // 400 BAD REQUEST
+            } catch (UserNotFoundException e) {
+                ctx.result(e.getMessage());
+                ctx.status(200);
+            }
+        });
     }
 }

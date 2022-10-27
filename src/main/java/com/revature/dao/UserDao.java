@@ -74,4 +74,23 @@ public class UserDao {
             }
         }
     }
+
+    public User deleteUserById(int id) throws SQLException {
+        // try-with-resources
+        try(Connection connection = DatabaseConnection.createConnection()) {
+
+            String userToDeleteQuery = "delete from bank_accounts \n" +
+                    "where user_id=?;\n" +
+                    "delete from users where id=?";
+
+            PreparedStatement pstmt = connection.prepareStatement(userToDeleteQuery);
+
+            pstmt.setInt(1, id);
+            pstmt.setInt(2, id);
+
+            int deleteUser = pstmt.executeUpdate();
+
+        }
+        return null;
+    }
 }
